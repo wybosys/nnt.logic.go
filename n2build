@@ -1,2 +1,17 @@
 #!/usr/bin/env python3
 
+import sys, os
+
+GOPATH = os.getenv('GOPATH')
+
+def makeenvironment():
+    project_home = os.path.dirname(sys.argv[0])
+    os.chdir(project_home)
+    global GOPATH
+    if not GOPATH:
+        GOPATH = 'libs'
+        os.environ['GOPATH'] = GOPATH
+    if not os.path.exists(GOPATH):
+        os.mkdir(GOPATH)
+
+makeenvironment()
