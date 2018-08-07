@@ -59,7 +59,7 @@ func Assert(exp nnt.Any, s string) {
 		case bool:
 			test, _ = exp.(bool)
 		default:
-			v := ToNumber(exp, 0)
+			v := 0 //ToNumber(exp, 0)
 			test = v != 0
 		}
 		if !test {
