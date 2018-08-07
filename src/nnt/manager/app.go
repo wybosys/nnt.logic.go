@@ -1,29 +1,39 @@
 package manager
 
-type app struct {
+import (
+	"nnt/core"
+	"os"
+)
+
+type _App struct {
 	Appcfg string
 	Devcfg string
 }
 
 var (
-	gs_app = app{
+	gs_app = _App{
 		Appcfg: "~/app.json",
 		Devcfg: "~/devops.json",
 	}
 )
 
-func App() *app {
+func App() *_App {
 	return &gs_app
 }
 
-func (_ *app) LoadConfig() {
+func (self *_App) LoadConfig() {
+	appcfg, devcfg := core.Urls.Expand(self.Appcfg), ""
+	if self.Devcfg != "" {
+		devcfg = core.Urls.Expand(self.Devcfg)
+	}
+
 
 }
 
-func (_ *app) Start() {
+func (_ *_App) Start() {
 
 }
 
-func (_ *app) Stop() {
+func (_ *_App) Stop() {
 
 }
