@@ -20,7 +20,7 @@ func Expand(url string) *string {
 		ps := strings.Split(url, "://")
 		proc := schemes[ps[0]]
 		if proc == nil {
-			Log("", nil)
+			Log("没有注册该类型 %s 的处理器", ps[0])
 			return nil
 		}
 		return proc(ps[1])

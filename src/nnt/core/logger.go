@@ -1,6 +1,9 @@
 package core
 
-import "nnt"
+import (
+	"nnt"
+	"log"
+)
 
 type Level byte
 
@@ -18,10 +21,49 @@ const (
 	EMERGENCY       = 0
 )
 
-type FnLoggerOutput func(string, *nnt.Any)
+type FnLoggerOutput func(string, ...nnt.Any)
+type FnLoggerError func(error)
 
 var (
-	Log FnLoggerOutput = func(_ string, _ *nnt.Any) {
+	Log FnLoggerOutput = func(s string, any ...nnt.Any) {
+		log.Printf(s, any)
+	}
 
+	Warn FnLoggerOutput = func(s string, any ...nnt.Any) {
+		log.Printf(s, any)
+	}
+
+	Info FnLoggerOutput = func(s string, any ...nnt.Any) {
+		log.Printf(s, any)
+	}
+
+	Fatal FnLoggerOutput = func(s string, any ...nnt.Any) {
+		log.Fatalf(s, any)
+	}
+
+	Exception FnLoggerError = func(e error) {
+		log.Printf(e.Error())
+	}
+
+	Error FnLoggerError = func(e error) {
+		log.Printf(e.Error())
 	}
 )
+
+func Assert(exp nnt.Any, s string) {
+	if exp == nil {
+		Fatal(s)
+	} else {
+		test := true
+		switch exp.(type) {
+		case bool:
+			test, _ = exp.(bool)
+		default:
+			v := ToNumber(exp, 0)
+			test = v != 0
+		}
+		if !test {
+			Fatal(s)
+		}
+	}
+}

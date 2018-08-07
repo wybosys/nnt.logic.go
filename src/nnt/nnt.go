@@ -13,3 +13,4 @@ type ULonglong uint64
 type Ptr uintptr
 type Any interface{}
 type IndexedObject interface{}
+type Number interface{}
