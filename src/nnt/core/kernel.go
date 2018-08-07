@@ -4,6 +4,8 @@ import (
 	"nnt"
 	"strings"
 	"strconv"
+	"os"
+	"io/ioutil"
 )
 
 func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
@@ -57,4 +59,17 @@ func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
 	}
 
 	return def
+}
+
+func FileGetContents(path string) ([]byte, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
