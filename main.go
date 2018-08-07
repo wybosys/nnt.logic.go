@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "app"
 
+func main() {
+	app.Main();
 }

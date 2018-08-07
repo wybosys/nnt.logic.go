@@ -1,2 +1,5 @@
 package app
 
+func Main() {
+
+}

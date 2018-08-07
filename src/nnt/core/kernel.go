@@ -1,4 +1,6 @@
 package core
 
-type long int64;
-type ulong uint64;
+type long int;
+type ulong uint;
+type longlong int64;
+type ulonglong uint64;

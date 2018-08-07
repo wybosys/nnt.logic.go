@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 
-import sys, os
+import sys, os, subprocess
 
+# 框架约定GOPATH指向src/libs
 GOPATH = os.getenv('GOPATH')
+if not GOPATH:
+    GOPATH = ''
+else:
+    GOPATH += ':'
+PROJECT_HOME = os.path.abspath(os.path.dirname(sys.argv[0]))
+GOPATH += PROJECT_HOME + "/:" + PROJECT_HOME + "/libs"
+os.environ['GOPATH'] = GOPATH
 
-def makeenvironment():
-    project_home = os.path.dirname(sys.argv[0])
-    os.chdir(project_home)
-    global GOPATH
-    if not GOPATH:
-        GOPATH = 'libs'
-        os.environ['GOPATH'] = GOPATH
-    if not os.path.exists(GOPATH):
-        os.mkdir(GOPATH)
-
-makeenvironment()
-
+# 启动编译
+code, output = subprocess.getstatusoutput('go build -v -o bin/app')
+print(output)
