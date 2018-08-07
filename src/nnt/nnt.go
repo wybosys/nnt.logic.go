@@ -17,3 +17,4 @@ type Map map[Any]Any
 type IndexedObject interface{}
 type Number interface{}
 type Index uint
+type Size UInt
