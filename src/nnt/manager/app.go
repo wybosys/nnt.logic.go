@@ -5,35 +5,37 @@ import (
 	"os"
 )
 
-type _App struct {
+type prvApp struct {
 	Appcfg string
 	Devcfg string
 }
 
 var (
-	gs_app = _App{
+	gs_app = prvApp{
 		Appcfg: "~/app.json",
 		Devcfg: "~/devops.json",
 	}
 )
 
-func App() *_App {
+func App() *prvApp {
 	return &gs_app
 }
 
-func (self *_App) LoadConfig() {
+func (self *prvApp) LoadConfig() {
 	appcfg, devcfg := core.Urls.Expand(self.Appcfg), ""
 	if self.Devcfg != "" {
 		devcfg = core.Urls.Expand(self.Devcfg)
 	}
 
+	if Config.DEBUG = core.ArrayT.Contains(os.Args, "--debug", nil); Config.DEBUG {
+
+	}
+}
+
+func (_ *prvApp) Start() {
 
 }
 
-func (_ *_App) Start() {
-
-}
-
-func (_ *_App) Stop() {
+func (_ *prvApp) Stop() {
 
 }

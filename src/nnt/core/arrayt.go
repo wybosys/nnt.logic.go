@@ -2,37 +2,48 @@ package core
 
 import "nnt"
 
-type _ArrayT struct {
+type prvArrayT struct {
 }
 
-var ArrayT = &_ArrayT{}
+var ArrayT = &prvArrayT{}
 
-func (*_ArrayT) QueryObject(arr *nnt.Array, filter func(any *nnt.Any, idx int) bool) *nnt.Any {
-	for idx := range *arr {
-		if filter(&(*arr)[idx], idx) {
-			return &(*arr)[idx]
+func (*prvArrayT) QueryObject(arr nnt.Any, filter func(any *nnt.Any, idx int) bool) *nnt.Any {
+	ref := arr.(nnt.Array)
+	for idx := range ref {
+		if filter(&ref[idx], idx) {
+			return &ref[idx]
 		}
 	}
 	return nil
 }
 
-func (*_ArrayT) Contains(arr *nnt.Array, tgt *nnt.Any, compar func(l *nnt.Any, r *nnt.Any) bool) bool {
-	return ArrayT.IndexOf(arr, tgt, compar) != -1
+func (self *prvArrayT) Contains(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) bool {
+	return self.IndexOf(arr, tgt, compar) != -1
 }
 
-func (*_ArrayT) IndexOf(arr *nnt.Array, tgt *nnt.Any, compar func(l *nnt.Any, r *nnt.Any) bool) int {
-	for idx := range (*arr) {
-		if compar(&(*arr)[idx], tgt) {
-			return idx
+func (*prvArrayT) IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) int {
+	ref := arr.(nnt.Array)
+	if compar == nil {
+		for idx := range ref {
+			if ref[idx] == tgt {
+				return idx
+			}
+		}
+	} else {
+		for idx := range ref {
+			if compar(&ref[idx], tgt) {
+				return idx
+			}
 		}
 	}
 	return -1
 }
 
-func (*_ArrayT) Convert(arr *nnt.Array, to func(any *nnt.Any, idx int) *nnt.Any, skipnull bool) []*nnt.Any {
-	ret := make([]*nnt.Any, len(*arr))
-	for idx := range (*arr) {
-		t := to(&(*arr)[idx], idx)
+func (*prvArrayT) Convert(arr nnt.Any, to func(any *nnt.Any, idx int) nnt.Any, skipnull bool) nnt.Array {
+	ref := arr.(nnt.Array)
+	ret := make([]nnt.Any, len(ref))
+	for idx := range ref {
+		t := to(&ref[idx], idx)
 		if t == nil && skipnull {
 			continue
 		}

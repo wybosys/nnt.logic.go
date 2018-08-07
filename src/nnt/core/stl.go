@@ -2,31 +2,25 @@ package core
 
 import "nnt"
 
-type _Array struct {
+type prvArray struct {
 	store nnt.Array
 }
 
-type _Map struct {
-	store nnt.Map
+type prvMap struct {
+	store interface{}
 }
 
-func Array(size int) *_Array {
-	return &_Array{
-		make(nnt.Array, size),
+func Array(arr nnt.Any) *prvArray {
+	return &prvArray{
+		arr.(nnt.Array),
 	}
 }
 
-func Map() *_Map {
-	return &_Map{
-		make(nnt.Map),
-	}
-}
-
-func (self *_Array) Length() int {
+func (self *prvArray) Length() int {
 	return len(self.store)
 }
 
-func (self *_Array) Append(r *nnt.Any) *_Array {
-	self.store = append(self.store, *r)
+func (self *prvArray) Append(r nnt.Any) *prvArray {
+	self.store = append(self.store, r)
 	return self
 }
