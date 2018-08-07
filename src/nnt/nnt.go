@@ -12,5 +12,8 @@ type Longlong int64
 type ULonglong uint64
 type Ptr uintptr
 type Any interface{}
+type Array []Any
+type Map map[Any]Any
 type IndexedObject interface{}
 type Number interface{}
+type Index uint
