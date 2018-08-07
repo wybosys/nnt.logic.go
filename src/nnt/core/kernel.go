@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"os"
 	"io/ioutil"
-)
+	)
 
 func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
 	if any == nil {

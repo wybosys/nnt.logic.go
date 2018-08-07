@@ -9,9 +9,16 @@ if not GOPATH:
 else:
     GOPATH += ':'
 PROJECT_HOME = os.path.abspath(os.path.dirname(sys.argv[0]))
-GOPATH += PROJECT_HOME + "/:" + PROJECT_HOME + "/libs"
+GOPATH += PROJECT_HOME + "/libs:" + PROJECT_HOME + "/"
 os.environ['GOPATH'] = GOPATH
 
 # 启动编译
-code, output = subprocess.getstatusoutput('go build -v -o bin/app')
-print(output)
+if len(sys.argv) == 1:
+    code, output = subprocess.getstatusoutput('go build -v -o bin/app')
+    print(output)
+
+# 判断是否时其他功能
+if 'get' in sys.argv:
+    print('安装模块 ' + sys.argv[2])
+    os.system('go get ' + sys.argv[2])
+    
