@@ -1,13 +1,9 @@
-package core
+package stl
 
 import "nnt"
 
 type prvArray struct {
 	store nnt.Array
-}
-
-type prvMap struct {
-	store interface{}
 }
 
 func Array(arr nnt.Any) *prvArray {

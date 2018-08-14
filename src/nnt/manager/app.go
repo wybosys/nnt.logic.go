@@ -5,6 +5,7 @@ import (
 	"os"
 	"nnt/core/fs"
 	"nnt/core/array"
+	"nnt/core/url"
 )
 
 type prvApp struct {
@@ -24,9 +25,9 @@ func App() *prvApp {
 }
 
 func (self *prvApp) LoadConfig() {
-	appcfg, devcfg := core.Urls.Expand(self.Appcfg), ""
+	appcfg, devcfg := url.Expand(self.Appcfg), ""
 	if self.Devcfg != "" {
-		devcfg = core.Urls.Expand(self.Devcfg)
+		devcfg = url.Expand(self.Devcfg)
 	}
 
 	if Config.DEBUG = array.Contains(os.Args, "--debug", nil); Config.DEBUG {
@@ -68,7 +69,7 @@ func (self *prvApp) LoadConfig() {
 	}
 	if v, ok := c.CheckGet("cache"); ok {
 		t, _ := v.String()
-		Config.CACHE = core.Urls.Expand(t)
+		Config.CACHE = url.Expand(t)
 	}
 
 	// 读取开发配置

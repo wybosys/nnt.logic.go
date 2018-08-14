@@ -1,14 +1,11 @@
-package core
+package url
 
 import (
 	"strings"
 	"os"
 	"path/filepath"
+	"nnt/core"
 )
-
-type prvUrls struct{}
-
-var Urls = &prvUrls{}
 
 type FnSchemeProcessor func(string) string
 
@@ -19,12 +16,12 @@ var ROOT, _ = filepath.Abs("/")
 // 展开url
 // 如果包含 :// 则拆分成 scheme 和 body，再根绝 scheme 注册的转换器转换
 // 否则按照 / 来打断各个部分，再处理 ~、/ 的设置
-func (*prvUrls) Expand(url string) string {
+func Expand(url string) string {
 	if fnd := strings.Index(url, "://"); fnd != -1 {
 		ps := strings.Split(url, "://")
 		proc := schemes[ps[0]]
 		if proc == nil {
-			Logger.Log("没有注册该类型 %s 的处理器", ps[0])
+			core.Logger.Log("没有注册该类型 %s 的处理器", ps[0])
 			return ""
 		}
 		return proc(ps[1])
@@ -42,15 +39,15 @@ func (*prvUrls) Expand(url string) string {
 	return strings.Join(ps, "/")
 }
 
-func (*prvUrls) RegisterScheme(scheme string, proc FnSchemeProcessor) {
+func RegisterScheme(scheme string, proc FnSchemeProcessor) {
 	schemes[scheme] = proc
 }
 
 func init() {
-	Urls.RegisterScheme("http", func(s string) string {
+	RegisterScheme("http", func(s string) string {
 		return s
 	})
-	Urls.RegisterScheme("https", func(s string) string {
+	RegisterScheme("https", func(s string) string {
 		return s
 	})
 }
