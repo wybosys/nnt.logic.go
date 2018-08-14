@@ -40,26 +40,38 @@ func (self *prvLoggers) Start(cfg []*kernel.JsonObject) {
 
 func init() {
 	logger.Log = func(s string) {
-
+		for _, e := range Loggers.servers {
+			e.Log(s)
+		}
 	}
 
 	logger.Warn = func(s string) {
-
+		for _, e := range Loggers.servers {
+			e.Warn(s)
+		}
 	}
 
 	logger.Info = func(s string) {
-
+		for _, e := range Loggers.servers {
+			e.Info(s)
+		}
 	}
 
-	logger.Fatal = func(e error, s string) {
-
+	logger.Fatal = func(err error, s string) {
+		for _, e := range Loggers.servers {
+			e.Fatal(err, s)
+		}
 	}
 
-	logger.Exception = func(e error) {
-
+	logger.Exception = func(err error) {
+		for _, e := range Loggers.servers {
+			e.Exception(err)
+		}
 	}
 
-	logger.Error = func(e error) {
-
+	logger.Error = func(err error) {
+		for _, e := range Loggers.servers {
+			e.Error(err)
+		}
 	}
 }
