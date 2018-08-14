@@ -9,6 +9,10 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
+type JsonObject struct {
+	*simplejson.Json
+}
+
 func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
 	if any == nil {
 		return def;
@@ -75,11 +79,11 @@ func FileGetContents(path string) ([]byte, error) {
 	return data, nil
 }
 
-func ToJsonObject(buf []byte) *simplejson.Json {
+func ToJsonObject(buf []byte) *JsonObject {
 	jsobj, err := simplejson.NewJson(buf)
 	if err != nil {
 		Logger.Error(err)
-		return nil;
+		return nil
 	}
-	return jsobj
+	return &JsonObject{jsobj}
 }

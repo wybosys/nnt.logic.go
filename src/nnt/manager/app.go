@@ -11,6 +11,9 @@ import (
 type prvApp struct {
 	Appcfg string
 	Devcfg string
+
+	// 保存解析好的配置
+	appcfgobj *core.JsonObject
 }
 
 var (
@@ -56,6 +59,7 @@ func (self *prvApp) LoadConfig() {
 	// 读取配置
 	content, _ := core.FileGetContents(appcfg)
 	cfg := core.ToJsonObject(content)
+	self.appcfgobj = cfg
 
 	// 读取系统配置
 	c := cfg.Get("config")
@@ -100,10 +104,18 @@ func (self *prvApp) LoadConfig() {
 	}
 }
 
-func (_ *prvApp) Start() {
-
-}
-
-func (_ *prvApp) Stop() {
-
+func (self *prvApp) Start() {
+	cfg := self.appcfgobj
+	if v, ok := cfg.CheckGet("logger"); ok {
+		t, _ := v.Array()
+		Loggers.Start(t)
+	}
+	if v, ok := cfg.CheckGet("dbms"); ok {
+		t, _ := v.Array()
+		Dbmss.Start(t)
+	}
+	if v, ok := cfg.CheckGet("server"); ok {
+		t, _ := v.Array()
+		Servers.Start(t)
+	}
 }
