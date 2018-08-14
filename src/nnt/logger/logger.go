@@ -1,7 +1,6 @@
-package core
+package logger
 
 import (
-	"nnt"
 	"log"
 	"nnt/core/number"
 )
@@ -25,57 +24,60 @@ const (
 type FnLoggerOutput func(string)
 type FnLoggerFatal func(error, string)
 type FnLoggerError func(error)
+type FnLoggerAssert func(interface{}, string)
 
-type prvLogger struct {
+var (
 	Log       FnLoggerOutput
 	Warn      FnLoggerOutput
 	Info      FnLoggerOutput
 	Fatal     FnLoggerFatal
 	Exception FnLoggerError
 	Error     FnLoggerError
-}
+	Assert    FnLoggerAssert
+)
 
-var Logger = &prvLogger{
-	Log: func(s string) {
+func init() {
+	Log = func(s string) {
 		log.Printf(s)
-	},
+	}
 
-	Warn: func(s string) {
+	Warn = func(s string) {
 		log.Printf(s)
-	},
+	}
 
-	Info: func(s string) {
+	Info = func(s string) {
 		log.Printf(s)
-	},
+	}
 
-	Fatal: func(e error, s string) {
+	Fatal = func(e error, s string) {
 		log.Printf(e.Error())
 		log.Fatalf(s)
-	},
+	}
 
-	Exception: func(e error) {
+	Exception = func(e error) {
 		log.Printf(e.Error())
-	},
+	}
 
-	Error: func(e error) {
+	Error = func(e error) {
 		log.Printf(e.Error())
-	},
-}
+	}
 
-func (self *prvLogger) Assert(exp nnt.Any, s string) {
-	if exp == nil {
-		self.Fatal(nil, s)
-	} else {
-		test := true
-		switch exp.(type) {
-		case bool:
-			test, _ = exp.(bool)
-		default:
-			v := number.Convert(exp, 0)
-			test = v != 0
-		}
-		if !test {
-			self.Fatal(nil, s)
+	Assert = func(exp interface{}, s string) {
+		if exp == nil {
+			Fatal(nil, s)
+		} else {
+			test := true
+			switch exp.(type) {
+			case bool:
+				test, _ = exp.(bool)
+			default:
+				v := number.Convert(exp, 0)
+				test = v != 0
+			}
+			if !test {
+				Fatal(nil, s)
+			}
 		}
 	}
+
 }

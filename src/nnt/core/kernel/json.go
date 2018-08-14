@@ -2,7 +2,7 @@ package kernel
 
 import (
 	"github.com/bitly/go-simplejson"
-	"nnt/core"
+	"nnt/logger"
 )
 
 type JsonObject struct {
@@ -12,7 +12,7 @@ type JsonObject struct {
 func ToJsonObject(buf []byte) *JsonObject {
 	jsobj, err := simplejson.NewJson(buf)
 	if err != nil {
-		core.Logger.Error(err)
+		logger.Error(err)
 		return nil
 	}
 	return &JsonObject{jsobj}

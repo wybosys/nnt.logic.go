@@ -1,10 +1,10 @@
 package manager
 
 import (
-	"nnt/core"
 	"nnt/core/fs"
 	"nnt/core/url"
 	"nnt/core/kernel"
+	"nnt/logger"
 )
 
 type prvApp struct {
@@ -33,32 +33,32 @@ func (self *prvApp) LoadConfig() {
 	}
 
 	if Config.DEBUG = kernel.ArgsContains("--debug"); Config.DEBUG {
-		core.Logger.Log("debug模式启动")
+		logger.Log("debug模式启动")
 	} else if Config.DEVELOP = kernel.ArgsContains("--develop"); Config.DEVELOP {
-		core.Logger.Log("develop模式启动")
+		logger.Log("develop模式启动")
 	} else if Config.PUBLISH = kernel.ArgsContains("--publish"); Config.PUBLISH {
-		core.Logger.Log("publish模式启动")
+		logger.Log("publish模式启动")
 	}
 	if Config.DISTRIBUTION = !Config.IsDebug(); Config.DISTRIBUTION {
-		core.Logger.Log("distribution模式启动")
+		logger.Log("distribution模式启动")
 	}
 	if Config.LOCAL = Config.IsLocal(); Config.LOCAL {
-		core.Logger.Log("LOCAL 环境")
+		logger.Log("LOCAL 环境")
 	}
 	if Config.DEVOPS = Config.IsDevops(); Config.DEVOPS {
-		core.Logger.Log("DEVOPS 环境")
+		logger.Log("DEVOPS 环境")
 	}
 	if Config.DEVOPS_DEVELOP = Config.IsDevopsDevelop(); Config.DEVOPS_DEVELOP {
-		core.Logger.Log("DEVOPS DEVELOP 环境")
+		logger.Log("DEVOPS DEVELOP 环境")
 	}
 	if Config.DEVOPS_RELEASE = Config.IsDevopsRelease(); Config.DEVOPS_RELEASE {
-		core.Logger.Log("DEVOPS RELEASE 环境")
+		logger.Log("DEVOPS RELEASE 环境")
 	}
 
 	// 读取配置
 	content, err := fs.FileGetContents(appcfg)
 	if err != nil {
-		core.Logger.Fatal(err, "读取APP配置失败")
+		logger.Fatal(err, "读取APP配置失败")
 	}
 	cfg := kernel.ToJsonObject(content)
 	self.appcfgobj = cfg
