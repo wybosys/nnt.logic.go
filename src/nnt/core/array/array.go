@@ -12,12 +12,12 @@ func QueryObject(arr nnt.Any, filter func(any *nnt.Any, idx int) bool) *nnt.Any 
 	return nil
 }
 
-func Contains(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) bool {
+func Contains(arr nnt.Any, tgt nnt.Any, compar func(l *interface{}, r nnt.Any) bool) bool {
 	return IndexOf(arr, tgt, compar) != -1
 }
 
-func IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) int {
-	ref := arr.(nnt.Array)
+func IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *interface{}, r nnt.Any) bool) int {
+	ref := arr.([]interface{})
 	if compar == nil {
 		for idx := range ref {
 			if ref[idx] == tgt {

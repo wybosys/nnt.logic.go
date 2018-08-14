@@ -1,16 +1,24 @@
-package core
+package kernel
 
 import (
+	"github.com/bitly/go-simplejson"
 	"nnt"
 	"strings"
 	"strconv"
-	"os"
-	"io/ioutil"
-	"github.com/bitly/go-simplejson"
+	"nnt/core"
 )
 
 type JsonObject struct {
 	*simplejson.Json
+}
+
+func ToJsonObject(buf []byte) *JsonObject {
+	jsobj, err := simplejson.NewJson(buf)
+	if err != nil {
+		core.Logger.Error(err)
+		return nil
+	}
+	return &JsonObject{jsobj}
 }
 
 func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
@@ -66,24 +74,3 @@ func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
 	return def
 }
 
-func FileGetContents(path string) ([]byte, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
-}
-
-func ToJsonObject(buf []byte) *JsonObject {
-	jsobj, err := simplejson.NewJson(buf)
-	if err != nil {
-		Logger.Error(err)
-		return nil
-	}
-	return &JsonObject{jsobj}
-}

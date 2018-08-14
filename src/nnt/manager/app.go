@@ -6,6 +6,7 @@ import (
 	"nnt/core/fs"
 	"nnt/core/array"
 	"nnt/core/url"
+	"nnt/core/kernel"
 )
 
 type prvApp struct {
@@ -13,7 +14,7 @@ type prvApp struct {
 	Devcfg string
 
 	// 保存解析好的配置
-	appcfgobj *core.JsonObject
+	appcfgobj *kernel.JsonObject
 }
 
 var (
@@ -57,8 +58,8 @@ func (self *prvApp) LoadConfig() {
 	}
 
 	// 读取配置
-	content, _ := core.FileGetContents(appcfg)
-	cfg := core.ToJsonObject(content)
+	content, _ := fs.FileGetContents(appcfg)
+	cfg := kernel.ToJsonObject(content)
 	self.appcfgobj = cfg
 
 	// 读取系统配置
@@ -78,8 +79,8 @@ func (self *prvApp) LoadConfig() {
 
 	// 读取开发配置
 	if devcfg != "" {
-		content, _ := core.FileGetContents(devcfg)
-		cfg := core.ToJsonObject(content)
+		content, _ := fs.FileGetContents(devcfg)
+		cfg := kernel.ToJsonObject(content)
 		if v, ok := cfg.CheckGet("client"); ok {
 			t, _ := v.Bool()
 			Config.CLIENT_ALLOW = t
