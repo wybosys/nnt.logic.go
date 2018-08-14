@@ -47,9 +47,9 @@ var Logger = &prvLogger{
 		log.Printf(s)
 	},
 
-	Fatal: func(err error, s string) {
+	Fatal: func(e error, s string) {
+		log.Printf(e.Error())
 		log.Fatalf(s)
-		panic(err)
 	},
 
 	Exception: func(e error) {
