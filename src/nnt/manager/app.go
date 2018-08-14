@@ -4,6 +4,7 @@ import (
 	"nnt/core"
 	"os"
 	"nnt/core/fs"
+	"nnt/core/array"
 )
 
 type prvApp struct {
@@ -28,11 +29,11 @@ func (self *prvApp) LoadConfig() {
 		devcfg = core.Urls.Expand(self.Devcfg)
 	}
 
-	if Config.DEBUG = core.ArrayT.Contains(os.Args, "--debug", nil); Config.DEBUG {
+	if Config.DEBUG = array.Contains(os.Args, "--debug", nil); Config.DEBUG {
 		core.Logger.Log("debug模式启动")
-	} else if Config.DEVELOP = core.ArrayT.Contains(os.Args, "--develop", nil); Config.DEVELOP {
+	} else if Config.DEVELOP = array.Contains(os.Args, "--develop", nil); Config.DEVELOP {
 		core.Logger.Log("develop模式启动")
-	} else if Config.PUBLISH = core.ArrayT.Contains(os.Args, "--publish", nil); Config.PUBLISH {
+	} else if Config.PUBLISH = array.Contains(os.Args, "--publish", nil); Config.PUBLISH {
 		core.Logger.Log("publish模式启动")
 	}
 	if Config.DISTRIBUTION = !Config.IsDebug(); Config.DISTRIBUTION {

@@ -1,13 +1,8 @@
-package core
+package array
 
 import "nnt"
 
-type prvArrayT struct {
-}
-
-var ArrayT = &prvArrayT{}
-
-func (*prvArrayT) QueryObject(arr nnt.Any, filter func(any *nnt.Any, idx int) bool) *nnt.Any {
+func QueryObject(arr nnt.Any, filter func(any *nnt.Any, idx int) bool) *nnt.Any {
 	ref := arr.(nnt.Array)
 	for idx := range ref {
 		if filter(&ref[idx], idx) {
@@ -17,11 +12,11 @@ func (*prvArrayT) QueryObject(arr nnt.Any, filter func(any *nnt.Any, idx int) bo
 	return nil
 }
 
-func (self *prvArrayT) Contains(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) bool {
-	return self.IndexOf(arr, tgt, compar) != -1
+func Contains(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) bool {
+	return IndexOf(arr, tgt, compar) != -1
 }
 
-func (*prvArrayT) IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) int {
+func IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nnt.Any) bool) int {
 	ref := arr.(nnt.Array)
 	if compar == nil {
 		for idx := range ref {
@@ -39,7 +34,7 @@ func (*prvArrayT) IndexOf(arr nnt.Any, tgt nnt.Any, compar func(l *nnt.Any, r nn
 	return -1
 }
 
-func (*prvArrayT) Convert(arr nnt.Any, to func(any *nnt.Any, idx int) nnt.Any, skipnull bool) nnt.Array {
+func Convert(arr nnt.Any, to func(any *nnt.Any, idx int) nnt.Any, skipnull bool) nnt.Array {
 	ref := arr.(nnt.Array)
 	ret := make([]nnt.Any, len(ref))
 	for idx := range ref {
