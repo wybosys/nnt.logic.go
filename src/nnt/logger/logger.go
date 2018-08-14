@@ -1,8 +1,8 @@
 package logger
 
 import (
-	"log"
 	"nnt/core/number"
+	"log"
 )
 
 type Level byte
@@ -25,6 +25,62 @@ type FnLoggerOutput func(string)
 type FnLoggerFatal func(error, string)
 type FnLoggerError func(error)
 type FnLoggerAssert func(interface{}, string)
+
+type ILogger interface {
+	Log(str string)
+	Warn(str string)
+	Info(str string)
+	Fatal(e error, str string)
+	Exception(e error)
+	Error(e error)
+	Assert(any interface{}, str string)
+}
+
+type BaseLogger struct {
+	ILogger
+}
+
+func (*BaseLogger) Log(str string) {
+
+}
+
+func (*BaseLogger) Warn(str string) {
+
+}
+
+func (*BaseLogger) Info(str string) {
+
+}
+
+func (*BaseLogger) Fatal(e error, str string) {
+
+}
+
+func (*BaseLogger) Exception(e error) {
+
+}
+
+func (*BaseLogger) Error(e error) {
+
+}
+
+func (self *BaseLogger) Assert(any interface{}, str string) {
+	if any == nil {
+		self.Fatal(nil, str)
+	} else {
+		test := true
+		switch any.(type) {
+		case bool:
+			test, _ = any.(bool)
+		default:
+			v := number.Convert(any, 0)
+			test = v != 0
+		}
+		if !test {
+			self.Fatal(nil, str)
+		}
+	}
+}
 
 var (
 	Log       FnLoggerOutput
@@ -61,23 +117,4 @@ func init() {
 	Error = func(e error) {
 		log.Printf(e.Error())
 	}
-
-	Assert = func(exp interface{}, s string) {
-		if exp == nil {
-			Fatal(nil, s)
-		} else {
-			test := true
-			switch exp.(type) {
-			case bool:
-				test, _ = exp.(bool)
-			default:
-				v := number.Convert(exp, 0)
-				test = v != 0
-			}
-			if !test {
-				Fatal(nil, s)
-			}
-		}
-	}
-
 }

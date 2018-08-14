@@ -17,3 +17,8 @@ func ToJsonObject(buf []byte) *JsonObject {
 	}
 	return &JsonObject{jsobj}
 }
+
+func (self *JsonObject) CheckGet(key string) (*JsonObject, bool) {
+	v, ok := self.Json.CheckGet(key)
+	return &JsonObject{v}, ok
+}
