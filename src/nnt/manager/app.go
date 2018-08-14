@@ -5,6 +5,7 @@ import (
 	"nnt/core/url"
 	"nnt/core/kernel"
 	"nnt/logger"
+	"nnt/config"
 )
 
 type prvApp struct {
@@ -32,26 +33,26 @@ func (self *prvApp) LoadConfig() {
 		devcfg = url.Expand(self.Devcfg)
 	}
 
-	if Config.DEBUG = kernel.ArgsContains("--debug"); Config.DEBUG {
+	if config.DEBUG = kernel.ArgsContains("--debug"); config.DEBUG {
 		logger.Log("debug模式启动")
-	} else if Config.DEVELOP = kernel.ArgsContains("--develop"); Config.DEVELOP {
+	} else if config.DEVELOP = kernel.ArgsContains("--develop"); config.DEVELOP {
 		logger.Log("develop模式启动")
-	} else if Config.PUBLISH = kernel.ArgsContains("--publish"); Config.PUBLISH {
+	} else if config.PUBLISH = kernel.ArgsContains("--publish"); config.PUBLISH {
 		logger.Log("publish模式启动")
 	}
-	if Config.DISTRIBUTION = !Config.IsDebug(); Config.DISTRIBUTION {
+	if config.DISTRIBUTION = !config.IsDebug(); config.DISTRIBUTION {
 		logger.Log("distribution模式启动")
 	}
-	if Config.LOCAL = Config.IsLocal(); Config.LOCAL {
+	if config.LOCAL = config.IsLocal(); config.LOCAL {
 		logger.Log("LOCAL 环境")
 	}
-	if Config.DEVOPS = Config.IsDevops(); Config.DEVOPS {
+	if config.DEVOPS = config.IsDevops(); config.DEVOPS {
 		logger.Log("DEVOPS 环境")
 	}
-	if Config.DEVOPS_DEVELOP = Config.IsDevopsDevelop(); Config.DEVOPS_DEVELOP {
+	if config.DEVOPS_DEVELOP = config.IsDevopsDevelop(); config.DEVOPS_DEVELOP {
 		logger.Log("DEVOPS DEVELOP 环境")
 	}
-	if Config.DEVOPS_RELEASE = Config.IsDevopsRelease(); Config.DEVOPS_RELEASE {
+	if config.DEVOPS_RELEASE = config.IsDevopsRelease(); config.DEVOPS_RELEASE {
 		logger.Log("DEVOPS RELEASE 环境")
 	}
 
@@ -67,15 +68,15 @@ func (self *prvApp) LoadConfig() {
 	c := cfg.Get("config")
 	if v, ok := c.CheckGet("sidexpire"); ok {
 		t, _ := v.Int()
-		Config.SID_EXPIRE = uint(t)
+		config.SID_EXPIRE = t
 	}
 	if v, ok := c.CheckGet("cidexpire"); ok {
 		t, _ := v.Int()
-		Config.CID_EXPIRE = uint(t)
+		config.CID_EXPIRE = t
 	}
 	if v, ok := c.CheckGet("cache"); ok {
 		t, _ := v.String()
-		Config.CACHE = url.Expand(t)
+		config.CACHE = url.Expand(t)
 	}
 
 	// 读取开发配置
@@ -84,25 +85,25 @@ func (self *prvApp) LoadConfig() {
 		cfg := kernel.ToJsonObject(content)
 		if v, ok := cfg.CheckGet("client"); ok {
 			t, _ := v.Bool()
-			Config.CLIENT_ALLOW = t
+			config.CLIENT_ALLOW = t
 		}
 		if v, ok := cfg.CheckGet("server"); ok {
 			t, _ := v.Bool()
-			Config.SERVER_ALLOW = t
+			config.SERVER_ALLOW = t
 		}
 		if v, ok := cfg.CheckGet("allow"); ok {
 			t, _ := v.StringArray()
-			Config.ACCESS_ALLOW = t
+			config.ACCESS_ALLOW = t
 		}
 		if v, ok := cfg.CheckGet("deny"); ok {
 			t, _ := v.StringArray()
-			Config.ACCESS_DENY = t
+			config.ACCESS_DENY = t
 		}
 	}
 
 	// 缓存目录
-	if !fs.IsDir(Config.CACHE) {
-		fs.MkDir(Config.CACHE)
+	if !fs.IsDir(config.CACHE) {
+		fs.MkDir(config.CACHE)
 	}
 }
 
