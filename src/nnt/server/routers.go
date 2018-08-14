@@ -56,7 +56,7 @@ func (self *Routers) Foreach(proc func(r IRouter, nm string)) {
 	}
 }
 
-func (self *Routers) Process(trans Transaction) {
+func (self *Routers) Process(trans *Transaction) {
 	// 查找router
 	r := self.Find(trans.router)
 	if r == nil {
