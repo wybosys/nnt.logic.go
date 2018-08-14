@@ -7,6 +7,6 @@ type prvServers struct {
 
 var Servers *prvServers = &prvServers{}
 
-func (*prvServers) Start(cfg *kernel.JsonObject) {
+func (*prvServers) Start(cfg []*kernel.JsonObject) {
 
 }

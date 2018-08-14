@@ -1,5 +1,8 @@
 package config
 
-func NodeIsEnable(cfg interface{}) bool  {
+import "nnt/core/kernel"
+
+func NodeIsEnable(cfg *kernel.JsonObject) bool  {
+
 	return false
 }

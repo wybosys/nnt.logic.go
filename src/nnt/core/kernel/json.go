@@ -22,3 +22,15 @@ func (self *JsonObject) CheckGet(key string) (*JsonObject, bool) {
 	v, ok := self.Json.CheckGet(key)
 	return &JsonObject{v}, ok
 }
+
+func (self *JsonObject) JsArray() ([]*JsonObject, error) {
+	t, err := self.Array()
+	if err != nil {
+		return make([]*JsonObject, 0), err
+	}
+	r := make([]*JsonObject, 0)
+	for idx := range t {
+		r = append(r, &JsonObject{self.GetIndex(idx)})
+	}
+	return r, nil
+}

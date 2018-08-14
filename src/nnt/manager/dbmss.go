@@ -7,6 +7,6 @@ type prvDbmss struct {
 
 var Dbmss *prvDbmss = &prvDbmss{}
 
-func (*prvDbmss) Start(cfg *kernel.JsonObject) {
+func (*prvDbmss) Start(cfg []*kernel.JsonObject) {
 
 }

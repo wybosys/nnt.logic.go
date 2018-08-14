@@ -3,6 +3,7 @@ package manager
 import (
 	"nnt/logger"
 	"nnt/core/kernel"
+	"nnt/config"
 )
 
 type prvLoggers struct {
@@ -10,8 +11,12 @@ type prvLoggers struct {
 
 var Loggers *prvLoggers = &prvLoggers{}
 
-func (*prvLoggers) Start(cfg *kernel.JsonObject) {
-
+func (*prvLoggers) Start(cfg []*kernel.JsonObject) {
+	for _, e := range cfg {
+		if !config.NodeIsEnable(e) {
+			continue;
+		}
+	}
 }
 
 func init() {

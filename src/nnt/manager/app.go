@@ -109,12 +109,15 @@ func (self *prvApp) LoadConfig() {
 func (self *prvApp) Start() {
 	cfg := self.appcfgobj
 	if v, ok := cfg.CheckGet("logger"); ok {
-		Loggers.Start(v)
+		t, _ := v.JsArray()
+		Loggers.Start(t)
 	}
 	if v, ok := cfg.CheckGet("dbms"); ok {
-		Dbmss.Start(v)
+		t, _ := v.JsArray()
+		Dbmss.Start(t)
 	}
 	if v, ok := cfg.CheckGet("server"); ok {
-		Servers.Start(v)
+		t, _ := v.JsArray()
+		Servers.Start(t)
 	}
 }
