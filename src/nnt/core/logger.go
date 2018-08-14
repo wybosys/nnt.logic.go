@@ -3,6 +3,7 @@ package core
 import (
 	"nnt"
 	"log"
+	"nnt/core/number"
 )
 
 type Level byte
@@ -70,7 +71,7 @@ func (self *prvLogger) Assert(exp nnt.Any, s string) {
 		case bool:
 			test, _ = exp.(bool)
 		default:
-			v := 0 //ToNumber(exp, 0)
+			v := number.Convert(exp, 0)
 			test = v != 0
 		}
 		if !test {
