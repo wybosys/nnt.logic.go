@@ -3,7 +3,7 @@ package manager
 import (
 	"nnt/core"
 	"os"
-	"log"
+	"nnt/core/fs"
 )
 
 type prvApp struct {
@@ -52,9 +52,50 @@ func (self *prvApp) LoadConfig() {
 	}
 
 	// 读取配置
+	content, _ := core.FileGetContents(appcfg)
+	cfg := core.ToJsonObject(content)
 
+	// 读取系统配置
+	c := cfg.Get("config")
+	if v, ok := c.CheckGet("sidexpire"); ok {
+		t, _ := v.Int()
+		Config.SID_EXPIRE = uint(t)
+	}
+	if v, ok := c.CheckGet("cidexpire"); ok {
+		t, _ := v.Int()
+		Config.CID_EXPIRE = uint(t)
+	}
+	if v, ok := c.CheckGet("cache"); ok {
+		t, _ := v.String()
+		Config.CACHE = core.Urls.Expand(t)
+	}
+
+	// 读取开发配置
+	if devcfg != "" {
+		content, _ := core.FileGetContents(devcfg)
+		cfg := core.ToJsonObject(content)
+		if v, ok := cfg.CheckGet("client"); ok {
+			t, _ := v.Bool()
+			Config.CLIENT_ALLOW = t
+		}
+		if v, ok := cfg.CheckGet("server"); ok {
+			t, _ := v.Bool()
+			Config.SERVER_ALLOW = t
+		}
+		if v, ok := cfg.CheckGet("allow"); ok {
+			t, _ := v.StringArray()
+			Config.ACCESS_ALLOW = t
+		}
+		if v, ok := cfg.CheckGet("deny"); ok {
+			t, _ := v.StringArray()
+			Config.ACCESS_DENY = t
+		}
+	}
 
 	// 缓存目录
+	if !fs.IsDir(Config.CACHE) {
+		fs.MkDir(Config.CACHE)
+	}
 }
 
 func (_ *prvApp) Start() {

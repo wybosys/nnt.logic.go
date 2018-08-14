@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-type _Config struct {
+type prvConfig struct {
 	// DEBUG模式
 	DEBUG bool
 
@@ -61,7 +61,7 @@ type _Config struct {
 	FILESIZE_LIMIT uint
 }
 
-var Config = &_Config{
+var Config = &prvConfig{
 	DEBUG:               false,
 	DEVELOP:             false,
 	PUBLISH:             false,
@@ -82,15 +82,15 @@ var Config = &_Config{
 	FILESIZE_LIMIT:      10485760, //10M
 }
 
-func (self *_Config) IsDebug() bool {
+func (self *prvConfig) IsDebug() bool {
 	return self.DEBUG || self.DEVELOP || self.PUBLISH
 }
 
-func (self *_Config) IsRelease() bool {
+func (self *prvConfig) IsRelease() bool {
 	return self.DISTRIBUTION
 }
 
-func (self *_Config) DebugValue(d nnt.Any, r nnt.Any) nnt.Any {
+func (self *prvConfig) DebugValue(d nnt.Any, r nnt.Any) nnt.Any {
 	if self.DISTRIBUTION {
 		return r
 	}
@@ -98,18 +98,18 @@ func (self *_Config) DebugValue(d nnt.Any, r nnt.Any) nnt.Any {
 }
 
 // 支持DEVOPS的架构判断
-func (self *_Config) IsDevops() bool {
+func (self *prvConfig) IsDevops() bool {
 	return os.Getenv("DEVOPS") != ""
 }
 
-func (self *_Config) IsDevopsDevelop() bool {
+func (self *prvConfig) IsDevopsDevelop() bool {
 	return os.Getenv("DEVOPS") != "" && os.Getenv("DEVOPS_RELEASE") == ""
 }
 
-func (self *_Config) IsDevopsRelease() bool {
+func (self *prvConfig) IsDevopsRelease() bool {
 	return os.Getenv("DEVOPS_RELEASE") != ""
 }
 
-func (self *_Config) IsLocal() bool {
+func (self *prvConfig) IsLocal() bool {
 	return os.Getenv("DEVOPS") == ""
 }

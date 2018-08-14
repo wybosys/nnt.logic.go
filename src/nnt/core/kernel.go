@@ -7,7 +7,7 @@ import (
 	"os"
 	"io/ioutil"
 	"github.com/bitly/go-simplejson"
-	)
+)
 
 func ToNumber(any nnt.Any, def nnt.Number) nnt.Number {
 	if any == nil {
@@ -75,7 +75,11 @@ func FileGetContents(path string) ([]byte, error) {
 	return data, nil
 }
 
-func ToJsonObject(buf []byte) {
+func ToJsonObject(buf []byte) *simplejson.Json {
 	jsobj, err := simplejson.NewJson(buf)
+	if err != nil {
+		Logger.Error(err)
+		return nil;
+	}
 	return jsobj
 }
