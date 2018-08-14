@@ -44,7 +44,7 @@ type BaseLogger struct {
 }
 
 func (*BaseLogger) Start() {
-
+	// pass
 }
 
 func (*BaseLogger) Config(cfg *kernel.JsonObject) bool {
@@ -52,27 +52,27 @@ func (*BaseLogger) Config(cfg *kernel.JsonObject) bool {
 }
 
 func (*BaseLogger) Log(str string) {
-
+	// pass
 }
 
 func (*BaseLogger) Warn(str string) {
-
+	// pass
 }
 
 func (*BaseLogger) Info(str string) {
-
+	// pass
 }
 
 func (*BaseLogger) Fatal(e error, str string) {
-
+	// pass
 }
 
 func (*BaseLogger) Exception(e error) {
-
+	// pass
 }
 
 func (*BaseLogger) Error(e error) {
-
+	// pass
 }
 
 func (self *BaseLogger) Assert(any interface{}, str string) {
