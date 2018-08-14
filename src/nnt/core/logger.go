@@ -21,33 +21,35 @@ const (
 	EMERGENCY       = 0
 )
 
-type FnLoggerOutput func(string, ...nnt.Any)
+type FnLoggerOutput func(string)
+type FnLoggerFatal func(error, string)
 type FnLoggerError func(error)
 
 type prvLogger struct {
 	Log       FnLoggerOutput
 	Warn      FnLoggerOutput
 	Info      FnLoggerOutput
-	Fatal     FnLoggerOutput
+	Fatal     FnLoggerFatal
 	Exception FnLoggerError
 	Error     FnLoggerError
 }
 
 var Logger = &prvLogger{
-	Log: func(s string, any ...nnt.Any) {
-		log.Printf(s, any)
+	Log: func(s string) {
+		log.Printf(s)
 	},
 
-	Warn: func(s string, any ...nnt.Any) {
-		log.Printf(s, any)
+	Warn: func(s string) {
+		log.Printf(s)
 	},
 
-	Info: func(s string, any ...nnt.Any) {
-		log.Printf(s, any)
+	Info: func(s string) {
+		log.Printf(s)
 	},
 
-	Fatal: func(s string, any ...nnt.Any) {
-		log.Fatalf(s, any)
+	Fatal: func(err error, s string) {
+		log.Fatalf(s)
+		panic(err)
 	},
 
 	Exception: func(e error) {
@@ -61,7 +63,7 @@ var Logger = &prvLogger{
 
 func (self *prvLogger) Assert(exp nnt.Any, s string) {
 	if exp == nil {
-		self.Fatal(s)
+		self.Fatal(nil, s)
 	} else {
 		test := true
 		switch exp.(type) {
@@ -72,7 +74,7 @@ func (self *prvLogger) Assert(exp nnt.Any, s string) {
 			test = v != 0
 		}
 		if !test {
-			self.Fatal(s)
+			self.Fatal(nil, s)
 		}
 	}
 }

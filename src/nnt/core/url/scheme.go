@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"nnt/core"
+	"fmt"
 )
 
 type FnSchemeProcessor func(string) string
@@ -21,7 +22,7 @@ func Expand(url string) string {
 		ps := strings.Split(url, "://")
 		proc := schemes[ps[0]]
 		if proc == nil {
-			core.Logger.Log("没有注册该类型 %s 的处理器", ps[0])
+			core.Logger.Log(fmt.Sprintf("没有注册该类型 %s 的处理器", ps[0]))
 			return ""
 		}
 		return proc(ps[1])

@@ -56,7 +56,10 @@ func (self *prvApp) LoadConfig() {
 	}
 
 	// 读取配置
-	content, _ := fs.FileGetContents(appcfg)
+	content, err := fs.FileGetContents(appcfg)
+	if err != nil {
+		core.Logger.Fatal(err, "读取APP配置失败")
+	}
 	cfg := kernel.ToJsonObject(content)
 	self.appcfgobj = cfg
 
