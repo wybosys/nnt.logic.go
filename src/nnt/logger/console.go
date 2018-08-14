@@ -23,7 +23,9 @@ func (*Console) Info(str string) {
 }
 
 func (*Console) Fatal(e error, str string) {
-	log.Printf(e.Error())
+	if e != nil {
+		log.Printf(e.Error())
+	}
 	log.Fatalf(str)
 }
 
