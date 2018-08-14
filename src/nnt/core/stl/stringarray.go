@@ -16,3 +16,13 @@ func (self *StringArray) Query(compr FnStringArrayEqual) (string, bool) {
 	}
 	return "", false
 }
+
+func (self *StringArray) At(idx int, def ...string) string {
+	if idx > len(*self) {
+		if def == nil {
+			return ""
+		}
+		return def[0]
+	}
+	return (*self)[idx]
+}

@@ -3,6 +3,7 @@ package server
 import (
 	"nnt/core/entry"
 	"nnt/logger"
+	"nnt/core/proto"
 )
 
 type IRouter interface {
@@ -52,5 +53,15 @@ func (self *Routers) Find(name string) IRouter {
 func (self *Routers) Foreach(proc func(r IRouter, nm string)) {
 	for k, v := range self.routers {
 		proc(v, k)
+	}
+}
+
+func (self *Routers) Process(trans Transaction) {
+	// 查找router
+	r := self.Find(trans.router)
+	if r == nil {
+		trans.Status = proto.ROUTER_NOT_FOUND
+		trans.Submit()
+		return
 	}
 }
