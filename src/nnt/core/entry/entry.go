@@ -3,7 +3,12 @@ package entry
 import (
 	"reflect"
 	"strings"
+	"log"
 )
+
+type IEntry interface {
+	Init()
+}
 
 // 注册实体，用来动态实例化
 
@@ -24,7 +29,13 @@ func Instance(name string) interface{} {
 	key := strings.ToLower(name)
 	key = strings.Replace(key, ".", "/", -1)
 	if typ, ok := entries[key]; ok {
-		return reflect.New(typ).Interface()
+		hdl := reflect.New(typ).Interface()
+		if ehdl, ok := hdl.(IEntry); ok {
+			ehdl.Init()
+			return ehdl
+		}
+		log.Fatal(name + " 没有实现 IEntry 接口")
+		return nil
 	}
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"nnt/core/number"
 	"log"
 	"nnt/core/kernel"
+	"nnt/core/entry"
 )
 
 type Level byte
@@ -28,6 +29,7 @@ type FnLoggerError func(error)
 type FnLoggerAssert func(interface{}, string)
 
 type ILogger interface {
+	entry.IEntry
 	Start()
 	Config(cfg *kernel.JsonObject) bool
 	Log(str string)
@@ -41,6 +43,10 @@ type ILogger interface {
 
 type BaseLogger struct {
 	ILogger
+}
+
+func (*BaseLogger) Init() {
+	// pass
 }
 
 func (*BaseLogger) Start() {
