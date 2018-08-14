@@ -1,22 +1,14 @@
 package stl
 
-type StringSlice []string
+type StringArray []string
 
-type implStringArray struct {
-	StringSlice
-}
-
-func StringArray(arr []string) *implStringArray {
-	return &implStringArray{arr}
-}
-
-func (self *StringSlice) Length() int {
+func (self *StringArray) Length() int {
 	return len(*self)
 }
 
 type FnStringArrayEqual func(idx int, e string) bool
 
-func (self *StringSlice) Query(compr FnStringArrayEqual) (string, bool) {
+func (self *StringArray) Query(compr FnStringArrayEqual) (string, bool) {
 	for idx, e := range *self {
 		if compr(idx, e) {
 			return e, true

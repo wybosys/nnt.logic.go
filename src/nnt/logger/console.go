@@ -1,32 +1,40 @@
 package logger
 
-import "log"
+import (
+	"log"
+	"nnt/core/entry"
+	"reflect"
+)
 
-type Logger struct {
+type Console struct {
 	BaseLogger
 }
 
-func (*Logger) Log(str string) {
+func (*Console) Log(str string) {
 	log.Printf(str)
 }
 
-func (*Logger) Warn(str string) {
+func (*Console) Warn(str string) {
 	log.Printf(str)
 }
 
-func (*Logger) Info(str string) {
+func (*Console) Info(str string) {
 	log.Printf(str)
 }
 
-func (*Logger) Fatal(e error, str string) {
+func (*Console) Fatal(e error, str string) {
 	log.Printf(e.Error())
 	log.Fatalf(str)
 }
 
-func (*Logger) Exception(e error) {
+func (*Console) Exception(e error) {
 	log.Printf(e.Error())
 }
 
-func (*Logger) Error(e error) {
+func (*Console) Error(e error) {
 	log.Printf(e.Error())
+}
+
+func init() {
+	entry.Register(reflect.TypeOf(Console{}))
 }

@@ -3,6 +3,7 @@ package logger
 import (
 	"nnt/core/number"
 	"log"
+	"nnt/core/kernel"
 )
 
 type Level byte
@@ -27,6 +28,8 @@ type FnLoggerError func(error)
 type FnLoggerAssert func(interface{}, string)
 
 type ILogger interface {
+	Start()
+	Config(cfg *kernel.JsonObject) bool
 	Log(str string)
 	Warn(str string)
 	Info(str string)
@@ -38,6 +41,14 @@ type ILogger interface {
 
 type BaseLogger struct {
 	ILogger
+}
+
+func (*BaseLogger) Start() {
+
+}
+
+func (*BaseLogger) Config(cfg *kernel.JsonObject) bool {
+	return true
 }
 
 func (*BaseLogger) Log(str string) {
