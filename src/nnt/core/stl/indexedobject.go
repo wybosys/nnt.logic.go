@@ -69,7 +69,7 @@ func (self *IndexedObject) Append(v interface{}) *IndexedObject {
 	return self
 }
 
-func (self *IndexedObject) AtIndex(idx int) interface{} {
+func (self *IndexedObject) At(idx int) interface{} {
 	return self.arr[idx]
 }
 
