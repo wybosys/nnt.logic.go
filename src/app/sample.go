@@ -11,10 +11,14 @@ type Sample struct {
 	server.Rest
 }
 
-func (self *Sample) Init() {
-	self.Rest.Init()
+type Echoo struct {
+	entry.IDecl `model(auth) table("db", "echoo")`
+	Input       string `string(1, [input], "输入") colstring()`
+	Output      string `string(2, [output], "输出") colstring()`
+	Time        int    `integer(3, [output], "服务器时间") colinteger()`
 }
 
 func init() {
 	entry.Register(reflect.TypeOf(Sample{}))
+	entry.Register(reflect.TypeOf(Echoo{}))
 }

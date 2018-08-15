@@ -6,8 +6,14 @@ import (
 	"log"
 )
 
+// 定义实体的基本接口，Instance时会调用Init达到初始化的目的，如果不需要该特性，使用IDecl
 type IEntry interface {
 	Init()
+}
+
+// 用于描述对象时标记struct描述,否则解析器无法定位信息
+type IDecl interface {
+
 }
 
 // 注册实体，用来动态实例化
@@ -38,8 +44,7 @@ func Instance(name string) interface{} {
 			ehdl.Init()
 			return ehdl
 		}
-		log.Fatal(name + " 没有实现 IEntry 接口")
-		return nil
+		return hdl
 	}
 	return nil
 }
