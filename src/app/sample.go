@@ -4,6 +4,7 @@ import (
 	"nnt/server"
 	"nnt/core/entry"
 	"reflect"
+	"nnt/core/proto"
 )
 
 type Sample struct {
@@ -19,6 +20,7 @@ type Echoo struct {
 }
 
 func init() {
+	proto.ParseClass(reflect.TypeOf(Echoo{}))
 	entry.Register(reflect.TypeOf(Sample{}))
 	entry.Register(reflect.TypeOf(Echoo{}))
 }
