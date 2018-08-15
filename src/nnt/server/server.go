@@ -1,6 +1,9 @@
 package server
 
-import "nnt/core/kernel"
+import (
+	"nnt/core/kernel"
+	"nnt/core/stl"
+)
 
 type IServer interface {
 	Config(cfg *kernel.JsonObject) bool
@@ -27,4 +30,15 @@ func (self *BaseServer) Start() {
 
 func (self *BaseServer) onStart() {
 	// pass
+}
+
+type IHttpServer interface {
+}
+
+type IConsoleServer interface {
+	// 通过控制台执行
+	// @params 调用参数
+	// @req 请求对象
+	// @rsp 响应对象
+	Invoke(params *stl.IndexedObject, req interface{}, rsp interface{});
 }

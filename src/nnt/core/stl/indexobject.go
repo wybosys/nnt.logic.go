@@ -1,4 +1,4 @@
 package stl
 
-type IndexObject interface {
+type IndexedObject interface {
 }

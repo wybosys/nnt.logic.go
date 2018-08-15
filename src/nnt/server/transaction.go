@@ -67,10 +67,10 @@ type Transaction struct {
 	message string
 
 	// 额外数据
-	payload stl.IndexObject
+	payload stl.IndexedObject
 
 	// 输出和输入的model
-	model stl.IndexObject
+	model stl.IndexedObject
 
 	// 基于哪个服务器运行
 	server IServer
