@@ -32,12 +32,24 @@ type TagArgument struct {
 	Array []*TagArgument
 }
 
+func newTagArgument() *TagArgument {
+	return &TagArgument{
+		IsConst: true,
+	}
+}
+
 type TagInfo struct {
 	// 标记的处理函数名称
 	Function string
 
 	// 参数表
 	Args []*TagArgument
+}
+
+func newTagInfo() *TagInfo {
+	return &TagInfo{
+		Args: make([]*TagArgument, 0),
+	}
 }
 
 type TagInfos map[string]*TagInfo
@@ -88,5 +100,80 @@ func ParseTag(tag string) TagInfos {
 	if tag == "" {
 		return nil
 	}
-	return nil
+	r := make(TagInfos)
+	var start int
+	var info *TagInfo = newTagInfo()
+	var arg, subarg *TagArgument = newTagArgument(), nil
+	var instring, eatchar bool
+	for pos, c := range tag {
+		if !instring && c == ' ' {
+			continue
+		}
+		if !eatchar {
+			start = pos
+			eatchar = true
+		}
+		switch c {
+		case '(':
+			info.Function = tag[start:pos]
+			eatchar = false
+		case ')':
+			if start != pos {
+				arg.Str = tag[start:pos]
+				info.Args = append(info.Args, arg)
+				r[info.Function] = info
+				eatchar = false
+				arg = newTagArgument()
+				info = newTagInfo()
+			}
+		case '[':
+			arg.Array = make([]*TagArgument, 0)
+			subarg = newTagArgument()
+			eatchar = false
+		case ']':
+			if start != pos {
+				subarg.Str = tag[start:pos]
+				arg.Array = append(arg.Array, subarg)
+				subarg = nil
+				eatchar = false
+			}
+		case ' ':
+			// skip
+		case '"':
+			if instring {
+				if subarg != nil {
+					subarg.Str = tag[start:pos]
+					arg.Array = append(arg.Array, subarg)
+					subarg = newTagArgument()
+				} else {
+					arg.Str = tag[start:pos]
+					info.Args = append(info.Args, arg)
+					arg = newTagArgument()
+				}
+				instring = false
+				eatchar = false
+			} else {
+				if subarg != nil {
+					subarg.IsConst = false
+				} else {
+					arg.IsConst = false
+				}
+				instring = true
+				eatchar = false
+			}
+		case ',':
+			if start != pos {
+				if subarg != nil {
+					subarg.Str = tag[start:pos]
+					arg.Array = append(arg.Array, subarg)
+					subarg = newTagArgument()
+				} else {
+					arg.Str = tag[start:pos]
+					info.Args = append(info.Args, arg)
+					arg = newTagArgument()
+				}
+			}
+		}
+	}
+	return r
 }
