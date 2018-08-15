@@ -1,12 +1,11 @@
 package number
 
 import (
-	"nnt"
 	"strings"
 	"strconv"
 )
 
-func Convert(any nnt.Any, def nnt.Number) nnt.Number {
+func Convert(any interface{}, def interface{}) interface{} {
 	if any == nil {
 		return def;
 	}

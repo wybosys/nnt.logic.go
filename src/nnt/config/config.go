@@ -1,7 +1,6 @@
 package config
 
 import (
-	"nnt"
 	"os"
 )
 
@@ -69,7 +68,7 @@ func IsRelease() bool {
 	return DISTRIBUTION
 }
 
-func DebugValue(d nnt.Any, r nnt.Any) nnt.Any {
+func DebugValue(d interface{}, r interface{}) interface{} {
 	if DISTRIBUTION {
 		return r
 	}
