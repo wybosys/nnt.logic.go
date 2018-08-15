@@ -11,6 +11,12 @@ import (
 type ITransaction interface {
 	// 返回事务用来区分客户端的id，通常业务中实现为sid
 	SessionId() string
+
+	// 恢复上下文，涉及到数据的恢复，所以是异步模式
+	Collect()
+
+	// 是否已经授权
+	Auth() bool
 }
 
 type TransactionInfo struct {
@@ -41,6 +47,7 @@ type TransactionSubmitOption struct {
 }
 
 type Transaction struct {
+	ITransaction
 	entry.IEntry
 
 	// 动作
@@ -97,6 +104,14 @@ func (self *Transaction) SetAction(act string) {
 	self.call = strings.ToLower(p.At(1, "null"))
 }
 
+func (self *Transaction) Modelize(r IRouter) proto.STATUS {
+	return proto.OK
+}
+
 func (self *Transaction) Submit(opt ...TransactionSubmitOption) {
 
+}
+
+func (self *Transaction) NeedAuth() bool {
+	return false
 }

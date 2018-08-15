@@ -4,6 +4,7 @@ import (
 	"nnt/core/entry"
 	"nnt/logger"
 	"nnt/core/proto"
+	"nnt/config"
 )
 
 type IRouter interface {
@@ -64,4 +65,59 @@ func (self *Routers) Process(trans *Transaction) {
 		trans.Submit()
 		return
 	}
+
+	// 模型化
+	sta := trans.Modelize(r)
+	if sta != proto.OK {
+		trans.Status = sta
+		trans.Submit()
+		return
+	}
+
+	// 恢复数据上下文
+	trans.Collect()
+
+	// 判断权限判断
+	if !trans.expose {
+		if trans.NeedAuth() {
+			if !trans.Auth() {
+				trans.Status = proto.NEED_AUTH
+				trans.Submit()
+				return
+			}
+		} else {
+			pass := self.devopsCheck(trans)
+			if !pass {
+				trans.Status = proto.PERMISSIO_FAILED
+				trans.Submit()
+				return
+			}
+		}
+	}
+
+	trans.Status = proto.OK
+}
+
+func (self *Routers) devopsCheck(trans *Transaction) bool {
+	// devops环境下才进行权限判定
+	if config.LOCAL {
+		return true
+	}
+
+	// 允许客户端访的将无法进行服务端权限判定
+	if config.CLIENT_ALLOW {
+		return true
+	}
+
+	// 如果访问的是api.doc，则不进行判定
+	if trans.Action() == "api.doc" {
+		return true
+	}
+
+	// 判断是否允许跳过权限验证
+	if config.DEVOPS_DEVELOP {
+
+	}
+
+	return true
 }
