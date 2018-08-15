@@ -102,8 +102,8 @@ func ParseTag(tag string) TagInfos {
 	}
 	r := make(TagInfos)
 	var start int
-	var info *TagInfo = newTagInfo()
-	var arg, subarg *TagArgument = newTagArgument(), nil
+	var info *TagInfo
+	var arg, subarg *TagArgument
 	var instring, eatchar bool
 	for pos, c := range tag {
 		if !instring && c == ' ' {
@@ -115,28 +115,32 @@ func ParseTag(tag string) TagInfos {
 		}
 		switch c {
 		case '(':
+			info = newTagInfo()
 			info.Function = tag[start:pos]
+			arg = newTagArgument()
 			eatchar = false
 		case ')':
-			if start != pos {
-				arg.Str = tag[start:pos]
-				info.Args = append(info.Args, arg)
-				r[info.Function] = info
-				eatchar = false
-				arg = newTagArgument()
-				info = newTagInfo()
+			if arg != nil {
+				if start != pos {
+					arg.Str = tag[start:pos]
+					info.Args = append(info.Args, arg)
+				}
+				arg = nil
 			}
+			r[info.Function] = info
+			info = nil
+			eatchar = false
 		case '[':
 			arg.Array = make([]*TagArgument, 0)
 			subarg = newTagArgument()
 			eatchar = false
 		case ']':
-			if start != pos {
+			if subarg != nil {
 				subarg.Str = tag[start:pos]
 				arg.Array = append(arg.Array, subarg)
 				subarg = nil
-				eatchar = false
 			}
+			eatchar = false
 		case ' ':
 			// skip
 		case '"':
@@ -144,11 +148,11 @@ func ParseTag(tag string) TagInfos {
 				if subarg != nil {
 					subarg.Str = tag[start:pos]
 					arg.Array = append(arg.Array, subarg)
-					subarg = newTagArgument()
+					subarg = nil
 				} else {
 					arg.Str = tag[start:pos]
 					info.Args = append(info.Args, arg)
-					arg = newTagArgument()
+					arg = nil
 				}
 				instring = false
 				eatchar = false
@@ -162,16 +166,16 @@ func ParseTag(tag string) TagInfos {
 				eatchar = false
 			}
 		case ',':
-			if start != pos {
-				if subarg != nil {
-					subarg.Str = tag[start:pos]
-					arg.Array = append(arg.Array, subarg)
-					subarg = newTagArgument()
-				} else {
-					arg.Str = tag[start:pos]
-					info.Args = append(info.Args, arg)
-					arg = newTagArgument()
-				}
+			if subarg != nil {
+				subarg.Str = tag[start:pos]
+				arg.Array = append(arg.Array, subarg)
+				subarg = newTagArgument()
+			} else if arg != nil {
+				arg.Str = tag[start:pos]
+				info.Args = append(info.Args, arg)
+				arg = newTagArgument()
+			} else {
+				arg = newTagArgument()
 			}
 		}
 	}
