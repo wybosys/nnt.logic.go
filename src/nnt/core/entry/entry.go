@@ -22,6 +22,10 @@ func Register(clazz reflect.Type, name ...string) {
 		key = name[0]
 	}
 	key = strings.ToLower(key)
+	if _, ok := entries[key]; ok {
+		log.Fatal("已经注册同名的类型 " + key)
+		return
+	}
 	entries[key] = clazz
 }
 
