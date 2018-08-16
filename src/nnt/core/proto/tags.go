@@ -113,6 +113,9 @@ func ParseTag(tag string) TagInfos {
 			start = pos
 			eatchar = true
 		}
+		if instring && c != '"' {
+			continue
+		}
 		switch c {
 		case '(':
 			info = newTagInfo()
