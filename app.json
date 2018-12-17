@@ -1,82 +1,82 @@
 {
-    "config": {
-        "sidexpire": 86400,
-        "cidexpire": 600,
-        "cache": "cache",
-        "https": false,
-        "deskey": "joi>:90",
-        "cluster": 1
+  "config": {
+    "sidexpire": 86400,
+    "cidexpire": 600,
+    "cache": "cache",
+    "https": false,
+    "deskey": "joi>:90",
+    "cluster": 1
+  },
+  "server": [
+    {
+      "id": "sample",
+      "listen": "*",
+      "port": 8090,
+      "entry": "app.Sample",
+      "enable": "local",
+      "router": {
+        "nnt.server.apidoc.Router": {
+          "export": {
+            "router": [
+              "entry://app/sample"
+            ],
+            "model": [
+              "entry://app/sample"
+            ]
+          }
+        }
+      }
     },
-    "server": [
-        {
-            "id": "sample",
-            "listen": "*",
-            "port": 8090,
-            "entry": "app.Sample",
-            "enable": "local",
-            "router": {
-                "nnt.server.apidoc.Router": {
-                    "export": {
-                        "router": [
-                            "entry://app/sample"
-                        ],
-                        "model": [
-                            "entry://app/sample"
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            "id": "sample",
-            "listen": "*",
-            "port": 80,
-            "entry": "app.Sample",
-            "enable": "devops-develop,devops-release",
-            "router": {
-                "nnt.server.apidoc.Router": {
-                    "export": {
-                        "router": [
-                            "entry://app/sample"
-                        ],
-                        "model": [
-                            "entry://app/sample"
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            "id": "gendata",
-            "entry": "nnt.server.XlsxConfig",
-            "dir": "~/src/app",
-            "output": "~/src/app/data.ts",
-            "enable": null
+    {
+      "id": "sample",
+      "listen": "*",
+      "port": 80,
+      "entry": "app.Sample",
+      "enable": "devops-develop,devops-release",
+      "router": {
+        "nnt.server.apidoc.Router": {
+          "export": {
+            "router": [
+              "entry://app/sample"
+            ],
+            "model": [
+              "entry://app/sample"
+            ]
+          }
         }
-    ],
-    "container": [
-    ],
-    "dbms": [
-        {
-            "id": "mysql",
-            "host": "develop.91egame.com",
-            "user": "root",
-            "pwd": "root",
-            "scheme": "test",
-            "entry": "nnt.store.RMysql"
-        },
-        {
-            "id": "kv",
-            "host": "develop.91egame.com",
-            "entry": "nnt.store.KvRedis"
-        }
-    ],
-    "logger": [
-        {
-            "id": "console",
-            "filter": "all",
-            "entry": "nnt.logger.Console",
-            "enable": "local"
-        }
-    ]
+      }
+    },
+    {
+      "id": "gendata",
+      "entry": "nnt.server.XlsxConfig",
+      "dir": "~/src/app",
+      "output": "~/src/app/data.ts",
+      "enable": null
+    }
+  ],
+  "container": [
+  ],
+  "dbms": [
+    {
+      "id": "mysql",
+      "host": "develop.91egame.com",
+      "user": "root",
+      "pwd": "root",
+      "scheme": "test",
+      "entry": "nnt.store.RMysql"
+    },
+    {
+      "id": "kv",
+      "host": "develop.91egame.com",
+      "entry": "nnt.store.KvRedis"
+    }
+  ],
+  "logger": [
+    {
+      "id": "console",
+      "filter": "all",
+      "entry": "nnt.logger.Console",
+      "enable": "local"
+    }
+  ]
 }
