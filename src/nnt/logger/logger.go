@@ -1,10 +1,10 @@
 package logger
 
 import (
-	"nnt/core/number"
 	"log"
-	"nnt/core/kernel"
 	"nnt/core/entry"
+	"nnt/core/kernel"
+	"nnt/core/number"
 )
 
 type Level byte

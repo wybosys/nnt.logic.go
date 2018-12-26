@@ -1,11 +1,11 @@
 package manager
 
 import (
-	"nnt/core/fs"
-	"nnt/core/url"
-	"nnt/core/kernel"
-	"nnt/config"
 	"log"
+	"nnt/config"
+	"nnt/core/fs"
+	"nnt/core/kernel"
+	"nnt/core/url"
 )
 
 type prvApp struct {

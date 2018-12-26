@@ -1,8 +1,8 @@
 package proto
 
 import (
-	"reflect"
 	"nnt/core/entry"
+	"reflect"
 )
 
 // 解析符合nnt规范的标注

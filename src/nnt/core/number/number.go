@@ -1,8 +1,8 @@
 package number
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 func Convert(any interface{}, def interface{}) interface{} {

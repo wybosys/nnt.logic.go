@@ -1,10 +1,10 @@
 package server
 
 import (
-	"nnt/core/entry"
-	"nnt/logger"
-	"nnt/core/proto"
 	"nnt/config"
+	"nnt/core/entry"
+	"nnt/core/proto"
+	"nnt/logger"
 )
 
 type IRouter interface {

@@ -1,8 +1,8 @@
 package fs
 
 import (
-	"os"
 	"io/ioutil"
+	"os"
 )
 
 func FileGetContents(path string) ([]byte, error) {

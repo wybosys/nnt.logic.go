@@ -1,9 +1,9 @@
 package entry
 
 import (
+	"log"
 	"reflect"
 	"strings"
-	"log"
 )
 
 // 定义实体的基本接口，Instance时会调用Init达到初始化的目的，如果不需要该特性，使用IDecl

@@ -2,8 +2,8 @@ package config
 
 import (
 	"nnt/core/kernel"
-	"strings"
 	"nnt/core/stl"
+	"strings"
 )
 
 func NodeIsEnable(cfg *kernel.JsonObject) bool {
