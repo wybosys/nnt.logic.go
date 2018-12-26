@@ -26,7 +26,7 @@ func (self *Template) Compile(str string) *Template {
 
 func (self *Template) Render(parameters *stl.IndexedObject) string {
 	var fn_each_param = func(v interface{}, k interface{}) {
-		self.buf = strings.Replace(self.buf, fmt.Sprintf("@@__%s", k.(string)), v.(string), 0)
+		self.buf = strings.Replace(self.buf, fmt.Sprintf("@@__%s", k.(string)), v.(string), -1)
 	}
 	parameters.Foreach(fn_each_param)
 	return self.buf
