@@ -1,11 +1,11 @@
 package url
 
 import (
-	"strings"
-	"os"
-	"path/filepath"
 	"fmt"
 	"nnt/logger"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 type FnSchemeProcessor func(string) string

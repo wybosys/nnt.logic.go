@@ -3,16 +3,16 @@ package stl
 // 类似于js中的object，可以是array，也可以是map，但不能同时
 // 为了降低go中构造非结构数据的难度
 type IndexedObject struct {
-	arr []interface{}
-	mp  map[interface{}]interface{}
+	arr  []interface{}
+	mapp map[interface{}]interface{}
 }
 
 func (self *IndexedObject) Length() int {
 	if self.arr != nil {
 		return len(self.arr)
 	}
-	if self.mp != nil {
-		return len(self.mp)
+	if self.mapp != nil {
+		return len(self.mapp)
 	}
 	return 0
 }
@@ -22,7 +22,7 @@ func (self *IndexedObject) isArray() bool {
 }
 
 func (self *IndexedObject) isMap() bool {
-	return self.mp != nil
+	return self.mapp != nil
 }
 
 func (self *IndexedObject) Array() []interface{} {
@@ -30,7 +30,7 @@ func (self *IndexedObject) Array() []interface{} {
 }
 
 func (self *IndexedObject) Map() map[interface{}]interface{} {
-	return self.mp
+	return self.mapp
 }
 
 func (self *IndexedObject) AsArray() *IndexedObject {
@@ -38,7 +38,7 @@ func (self *IndexedObject) AsArray() *IndexedObject {
 		return self
 	}
 	if self.isMap() {
-		self.mp = nil
+		self.mapp = nil
 	}
 	self.arr = make([]interface{}, 0)
 	return self
@@ -51,15 +51,15 @@ func (self *IndexedObject) AsMap() *IndexedObject {
 	if self.isArray() {
 		self.arr = nil
 	}
-	self.mp = make(map[interface{}]interface{})
+	self.mapp = make(map[interface{}]interface{})
 	return self
 }
 
 func (self *IndexedObject) Clear() *IndexedObject {
 	if self.arr != nil {
 		self.arr = make([]interface{}, 0)
-	} else if (self.mp != nil) {
-		self.mp = make(map[interface{}]interface{})
+	} else if (self.mapp != nil) {
+		self.mapp = make(map[interface{}]interface{})
 	}
 	return self
 }
@@ -74,10 +74,22 @@ func (self *IndexedObject) At(idx int) interface{} {
 }
 
 func (self *IndexedObject) Get(k interface{}) interface{} {
-	return self.mp[k]
+	return self.mapp[k]
 }
 
 func (self *IndexedObject) Set(k interface{}, v interface{}) *IndexedObject {
-	self.mp[k] = v
+	self.mapp[k] = v
 	return self
+}
+
+func (self *IndexedObject) Foreach(proc func(v interface{}, k interface{})) {
+	if self.arr != nil {
+		for idx, e := range self.arr {
+			proc(e, idx)
+		}
+	} else if self.mapp != nil {
+		for k, v := range self.mapp {
+			proc(v, k)
+		}
+	}
 }
