@@ -1,7 +1,14 @@
 package store
 
+import "nnt/core/kernel"
+
 type IKv interface {
 	IDbms
 
-	// 直接读取数据
+	Get(key string) *kernel.Variant
+	Set(key string, val *kernel.Variant)
+	GetSet(key string, val *kernel.Variant) *kernel.Variant
+	Del(key string) DbExecuteStat
+	AutoInc(key string, delta int) int
+	Inc(key string, delta int) int
 }
