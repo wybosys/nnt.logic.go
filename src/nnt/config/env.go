@@ -1,4 +1,4 @@
-package manager
+package config
 
 import (
 	"os"
@@ -91,3 +91,4 @@ func IsDevopsRelease() bool {
 func IsLocal() bool {
 	return os.Getenv("DEVOPS") == ""
 }
+

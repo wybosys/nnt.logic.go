@@ -3,7 +3,6 @@ package config
 import (
 	"nnt/core/kernel"
 	"nnt/core/stl"
-	"nnt/manager"
 	"strings"
 )
 
@@ -20,31 +19,31 @@ func NodeIsEnable(cfg *kernel.JsonObject) bool {
 			return false
 		}
 		if e == "debug" {
-			return manager.DEBUG
+			return DEBUG
 		}
 		if e == "develop" {
-			return manager.DEVELOP
+			return DEVELOP
 		}
 		if e == "publish" {
-			return manager.PUBLISH
+			return PUBLISH
 		}
 		if e == "distribution" {
-			return manager.DISTRIBUTION
+			return DISTRIBUTION
 		}
 		if e == "release" {
-			return manager.PUBLISH || manager.DISTRIBUTION
+			return PUBLISH || DISTRIBUTION
 		}
 		if e == "devops" {
-			return manager.DEVOPS
+			return DEVOPS
 		}
 		if e == "devops-develop" {
-			return manager.DEVOPS_DEVELOP
+			return DEVOPS_DEVELOP
 		}
 		if e == "devops-release" {
-			return manager.DEVOPS_RELEASE
+			return DEVOPS_RELEASE
 		}
 		if e == "local" {
-			return manager.LOCAL
+			return LOCAL
 		}
 		if kernel.ArgsContains("--" + e) {
 			return true
