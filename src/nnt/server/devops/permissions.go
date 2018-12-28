@@ -15,8 +15,12 @@ const (
 )
 
 var (
-	current_pid string = ""
+	current_pid = ""
 )
+
+func PID() string {
+	return current_pid
+}
 
 func flushCurrentPid() {
 	cfg, err := json.ReadFile(config.APP_DIR + "/run/permission.cfg")
@@ -45,6 +49,7 @@ func permissioncfgWatcher() {
 				//log.Println("event:", event)
 				if event.Op&fsnotify.Write == fsnotify.Write {
 					//log.Println("modified file:", event.Name)
+					flushCurrentPid()
 				}
 			case err, ok := <-watcher.Errors:
 				if !ok {
