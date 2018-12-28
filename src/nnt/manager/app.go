@@ -4,6 +4,7 @@ import (
 	"log"
 	"nnt/config"
 	"nnt/core/fs"
+	"nnt/core/json"
 	"nnt/core/kernel"
 	"nnt/core/url"
 )
@@ -60,11 +61,10 @@ func (self *prvApp) LoadConfig() {
 	}
 
 	// 读取配置
-	content, err := fs.FileGetContents(appcfg)
+	cfg, err := json.ReadFile(appcfg)
 	if err != nil {
-		log.Print(err, "读取APP配置失败")
+		log.Fatal(err.Error())
 	}
-	cfg := kernel.ToJsonObject(content)
 	self.appcfgobj = cfg
 
 	// 读取系统配置

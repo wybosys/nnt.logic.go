@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -61,6 +62,9 @@ var (
 
 	// 最大下载文件的大小
 	FILESIZE_LIMIT = 10485760 //10M
+
+	// 当前目录
+	APP_DIR = ""
 )
 
 func IsDebug() bool {
@@ -93,4 +97,9 @@ func IsDevopsRelease() bool {
 
 func IsLocal() bool {
 	return os.Getenv("DEVOPS") == ""
+}
+
+func init() {
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+	APP_DIR = dir
 }
