@@ -1,4 +1,4 @@
-package server
+package devops
 
 const (
 	KEY_PERMISSIONID    = "_permissionid"

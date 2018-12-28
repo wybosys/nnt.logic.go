@@ -9,7 +9,10 @@ import (
 )
 
 type prvApp struct {
+	// app.json的设置
 	Appcfg string
+
+	// devops.json的设置
 	Devcfg string
 
 	// 保存解析好的配置
@@ -98,6 +101,10 @@ func (self *prvApp) LoadConfig() {
 		if v, ok := cfg.CheckGet("deny"); ok {
 			t, _ := v.StringArray()
 			config.ACCESS_DENY = t
+		}
+		if v, ok := cfg.CheckGet("path"); ok {
+			t, _ := v.String()
+			config.DOMAIN = t[16:]
 		}
 	}
 

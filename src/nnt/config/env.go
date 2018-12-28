@@ -53,6 +53,9 @@ var (
 	// 黑名单
 	ACCESS_DENY = make([]string, 0)
 
+	// 本服务的域
+	DOMAIN = ""
+
 	// 服务端缓存目录
 	CACHE = "cache"
 
@@ -91,4 +94,3 @@ func IsDevopsRelease() bool {
 func IsLocal() bool {
 	return os.Getenv("DEVOPS") == ""
 }
-
