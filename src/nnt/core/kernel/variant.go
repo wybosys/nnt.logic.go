@@ -186,10 +186,13 @@ func (self *Variant) Unserialize(str []byte) bool {
 	return true
 }
 
-func UnserializeToVariant(str string) *Variant {
-	if str == "" {
+func VariantFromString(str []byte) *Variant {
+	if str == nil {
 		return nil
 	}
 	r := new(Variant)
+	if !r.Unserialize(str) {
+		return nil
+	}
 	return r
 }

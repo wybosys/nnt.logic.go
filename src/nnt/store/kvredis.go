@@ -103,6 +103,10 @@ func (self *KvRedis) TestOpen() {
 	}
 }
 
+func (self *KvRedis) Get(key string) *kernel.Variant {
+	return self.hdl.get(key)
+}
+
 // ------------------------------------------实现
 
 func (self *redisHandle) open(kv *KvRedis) {
@@ -148,4 +152,14 @@ func (self *redisHandle) ping() bool {
 		}
 	}
 	return false
+}
+
+func (self *redisHandle) get(key string) *kernel.Variant {
+	k := self.key(key)
+	if self.normal != nil {
+		v, _ := self.normal.Get(k).Bytes()
+		return kernel.VariantFromString(v)
+	}
+	v, _ := self.cluster.Get(k).Bytes()
+	return kernel.VariantFromString(v)
 }
