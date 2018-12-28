@@ -3,13 +3,8 @@
 import sys, os, subprocess
 
 # 框架约定GOPATH指向src/libs
-GOPATH = os.getenv('GOPATH')
-if not GOPATH:
-    GOPATH = ''
-else:
-    GOPATH += ':'
 PROJECT_HOME = os.path.abspath(os.path.dirname(sys.argv[0]))
-GOPATH += PROJECT_HOME + "/libs:" + PROJECT_HOME + "/"
+GOPATH = PROJECT_HOME + "/libs:" + PROJECT_HOME + "/"
 os.environ['GOPATH'] = GOPATH
 
 # 启动编译

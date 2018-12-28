@@ -5,3 +5,7 @@ const (
 	KEY_SKIPPERMISSION  = "_skippermission"
 	REDIS_PERMISSIONIDS = 17
 )
+
+func PID() string {
+
+}
