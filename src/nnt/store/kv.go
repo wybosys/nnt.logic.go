@@ -12,3 +12,7 @@ type IKv interface {
 	AutoInc(key string, delta int) int
 	Inc(key string, delta int) int
 }
+
+type AbstractKv struct {
+	AbstractDbms
+}

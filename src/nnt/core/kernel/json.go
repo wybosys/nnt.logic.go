@@ -66,6 +66,18 @@ func (self *JsonObject) GetInt(key string) (int, bool) {
 	return v, true
 }
 
+func (self *JsonObject) GetFloat(key string) (float64, bool) {
+	t, ok := self.CheckGet(key)
+	if !ok {
+		return 0, false
+	}
+	v, err := t.Float64()
+	if err != nil {
+		return 0, false
+	}
+	return v, true
+}
+
 func (self *JsonObject) GetBool(key string) (bool, bool) {
 	t, ok := self.CheckGet(key)
 	if !ok {
