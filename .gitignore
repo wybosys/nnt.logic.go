@@ -8,5 +8,5 @@ logs
 cache
 run
 .~*
-pkg
+/libs/pkg
 /app
