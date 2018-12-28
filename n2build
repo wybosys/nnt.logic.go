@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, subprocess
+import sys, os, subprocess, shutil
 
 # 框架约定GOPATH指向src/libs
 PROJECT_HOME = os.path.abspath(os.path.dirname(sys.argv[0]))
@@ -16,4 +16,5 @@ if len(sys.argv) == 1:
 if 'get' in sys.argv:
     print('安装模块 ' + sys.argv[2])
     os.system('go get -v ' + sys.argv[2])
-
+    # 移除get时产生的.git
+    shutil.rmtree('libs/src/' + sys.argv[2] + '/.git')
