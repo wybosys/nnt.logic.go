@@ -5,10 +5,10 @@ import "nnt/core/kernel"
 // 数据库基类接口
 type IDbms interface {
 	// 打开连接
-	open();
+	Open();
 
 	// 关闭连接
-	close();
+	Close();
 }
 
 // 数据库默认实现

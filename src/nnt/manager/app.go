@@ -85,7 +85,7 @@ func (self *prvApp) LoadConfig() {
 	// 读取开发配置
 	if devcfg != "" {
 		content, _ := fs.FileGetContents(devcfg)
-		cfg := kernel.ToJsonObject(content)
+		cfg, _ := kernel.ToJsonObject(content)
 		if v, ok := cfg.CheckGet("client"); ok {
 			t, _ := v.Bool()
 			config.CLIENT_ALLOW = t

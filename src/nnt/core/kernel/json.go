@@ -9,13 +9,20 @@ type JsonObject struct {
 	*simplejson.Json
 }
 
-func ToJsonObject(buf []byte) *JsonObject {
+func ToJsonObject(buf []byte) (*JsonObject, error) {
 	jsobj, err := simplejson.NewJson(buf)
 	if err != nil {
 		log.Print(err.Error())
-		return nil
+		return nil, err
 	}
-	return &JsonObject{jsobj}
+	return &JsonObject{jsobj}, nil
+}
+
+func ToJson(obj *JsonObject) ([]byte, error) {
+	if obj == nil {
+		return []byte(""), nil
+	}
+	return obj.Encode()
 }
 
 func (self *JsonObject) CheckGet(key string) (*JsonObject, bool) {
@@ -69,4 +76,12 @@ func (self *JsonObject) GetBool(key string) (bool, bool) {
 		return false, false
 	}
 	return v, true
+}
+
+func (self *JsonObject) GetObject(key string) (interface{}, bool) {
+	t, ok := self.CheckGet(key)
+	if !ok {
+		return nil, false
+	}
+	return t.Interface(), true
 }
