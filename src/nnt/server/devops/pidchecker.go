@@ -7,5 +7,5 @@ type Checker struct {
 }
 
 func init() {
-	
+
 }
