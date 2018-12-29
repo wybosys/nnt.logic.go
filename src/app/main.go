@@ -1,6 +1,8 @@
 package app
 
-import "nnt/manager"
+import (
+	"nnt/manager"
+)
 
 func Main() {
 	hdl := manager.App()
