@@ -54,8 +54,7 @@ def build(debug=False):
 def debug():
     """启动调试器"""
     exp = 'dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./app -- --debug'
-    code, output = subprocess.getstatusoutput(exp)
-    print(output)
+    os.system(exp)
 
 
 if __name__ == "__main__":
