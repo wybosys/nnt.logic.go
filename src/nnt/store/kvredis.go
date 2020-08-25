@@ -19,6 +19,7 @@ type redisHandle struct {
 
 type KvRedis struct {
 	AbstractKv
+
 	Dbid    int
 	Host    string
 	Port    int
@@ -133,7 +134,7 @@ func (self *redisHandle) close() {
 	if self.normal != nil {
 		self.normal.Close()
 		self.normal = nil
-	} else if (self.cluster != nil) {
+	} else if self.cluster != nil {
 		self.cluster.Close()
 		self.cluster = nil
 	}
