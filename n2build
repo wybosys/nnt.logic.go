@@ -35,16 +35,16 @@ os.environ['GOPROXY'] = 'https://goproxy.cn'
 
 def install():
     """安装依赖"""
-    os.system('go install ./')
+    os.system('go get -v ./')
 
 
 def install_package(name):
     """安装模块"""
 
     print('安装模块 ' + name)
-    os.environ['GO111MODULE'] = 'on'
+    #os.environ['GO111MODULE'] = 'on'
     os.system('go get -v ' + sys.argv[2])
-    os.environ['GO111MODULE'] = 'off'
+    #os.environ['GO111MODULE'] = 'off'
 
     # 移除get时产生的.git
     rbs = [
