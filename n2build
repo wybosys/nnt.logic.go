@@ -30,14 +30,39 @@ GOPATH = GOPATH_DELIMITER.join([
 ])
 os.environ['GOPATH'] = GOPATH
 
-# 启动编译
-if len(sys.argv) == 1:
-    code, output = subprocess.getstatusoutput('go build -v -o app')
-    print(output)
 
-# 判断是否时其他功能
-if 'get' in sys.argv:
-    print('安装模块 ' + sys.argv[2])
+def install_package(name):
+    """安装模块"""
+    print('安装模块 ' + name)
     os.system('go get -v ' + sys.argv[2])
     # 移除get时产生的.git
     shutil.rmtree('libs/src/' + sys.argv[2] + '/.git')
+
+
+def build(debug=False):
+    """普通编译"""
+    cmds = ['go build -v']
+    if debug:
+        cmds.append('-gcflags "all=-N -l"')
+    cmds.append('-o app')
+    exp = ' '.join(cmds)
+    # print(exp)
+    code, output = subprocess.getstatusoutput(exp)
+    print(output)
+
+
+def debug():
+    """启动调试器"""
+    exp = 'dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./app -- --debug'
+    code, output = subprocess.getstatusoutput(exp)
+    print(output)
+
+
+if __name__ == "__main__":
+    if 'get' in sys.argv:
+        install_package(sys.argv[2])
+    elif 'debug' in sys.argv:
+        build(True)
+        debug()
+    else:
+        build()
