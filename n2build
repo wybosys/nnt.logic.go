@@ -38,13 +38,62 @@ def install():
     os.system('go get -v ./')
 
 
+def merge_packages(src, dst):
+    for each in os.listdir(src):
+        cur_path = src + '/' + each
+        # print(cur_path)
+        # 如果不是目录，则跳过
+        if not os.path.isdir(cur_path):
+            continue
+        # 如果是库目录
+        if '@' in each:
+            dstpkg = dst + '/' + each.split('@')[0]
+            #print('移动库 %s to %s' % (cur_path, dstpkg))
+            shutil.move(cur_path, dstpkg)
+        else:
+            # 是模块目录，则需要在dst中创建
+            dstdm = dst + '/' + each
+            if not os.path.exists(dstdm):
+                os.mkdir(dstdm)
+                #print('创建域 ' + dstdm)
+            merge_packages(cur_path, dstdm)
+
+
+def install_package_proxy(name):
+    print('安装模块 ' + name)
+
+    # 删除mod历史目录
+    mod = PROJECT_HOME + '/libs/pkg/mod'
+    if os.path.exists(mod):
+        shutil.rmtree(mod)
+
+    # 通过代理安装
+    os.environ['GO111MODULE'] = 'on'
+    os.system('go get -v ' + sys.argv[2])
+    os.environ['GO111MODULE'] = 'off'
+
+    # 从mod目录中搬出来
+    if os.path.exists(mod + '/cache'):
+        shutil.rmtree(mod + '/cache')
+    merge_packages(mod, PROJECT_HOME + '/libs/src')
+
+    # 清理
+    shutil.rmtree(mod)
+
+
 def install_package(name):
     """安装模块"""
 
+    # 如果是被屏蔽地址，需要采用代理形式下载
+    for each in [
+        'google.golang.org'
+    ]:
+        if each in name:
+            install_package_proxy(name)
+            return
+
     print('安装模块 ' + name)
-    #os.environ['GO111MODULE'] = 'on'
     os.system('go get -v ' + sys.argv[2])
-    #os.environ['GO111MODULE'] = 'off'
 
     # 移除get时产生的.git
     rbs = [
